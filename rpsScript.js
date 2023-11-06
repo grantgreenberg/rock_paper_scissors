@@ -29,3 +29,16 @@ function playRound (playerSelection, computerSelection) {
     return "Computer wins! " + computer + " beats " + player;
   }
 }
+
+function game() {
+
+    for (let rounds = 1; rounds < 6; rounds++) {
+
+      console.log("Round #", rounds);
+
+      const playerChoice = prompt("Rock, paper, or scissors? ");
+
+      console.log(playRound(playerChoice, getComputerChoice()));
+
+    }
+}
