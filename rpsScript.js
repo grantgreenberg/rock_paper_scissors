@@ -33,83 +33,62 @@ function playRound (playerSelection, computerSelection) {
 let playerScore = 0;
 let computerScore = 0;
 
-function handlePlayerChoice(event) {
+let buttonChoice = document.querySelector('body');
+buttonChoice.addEventListener('click', resolvePlayersChoice);
+
+function resolvePlayersChoice (event) {
   let target = event.target;
-  let resultDiv = document.querySelector('#results');
+  let computerChoice = getComputerChoice();
+  let result = '';
+  let resultsDiv = document.querySelector('#results');
 
-  let computerSelection = getComputerChoice();
-  let roundResult = document.createElement('p');
-  let result;
-
-  switch(target.id) {
+  switch (target.id) {
     case 'rock':
-      result = playRound('rock', computerSelection);
+      result = playRound('rock', computerChoice);
+      resultsDiv.textContent = result;
       break;
     case 'paper':
-      result = playRound('paper', computerSelection);
+      result = playRound('paper', computerChoice);
+      resultsDiv.textContent = result;
       break;
     case 'scissors':
-      result = playRound('scissors', computerSelection);
+      result = playRound('scissors', computerChoice);
+      resultsDiv.textContent = result;
       break;
   }
 
-  roundResult.textContent = result;
-  resultDiv.appendChild(roundResult);
-
-  // Update scores based on the result
   updateScores(result);
-  
-  // Check if either player or computer has won
-  if (playerScore === 5 || computerScore === 5) {
-    displayScores();
-    announceWinner();
-    playerChoice.removeEventListener('click', handlePlayerChoice);    
-  } else {
-    // Display scores if the game is not over
-    displayScores();
-  }
 }
 
 function updateScores(result) {
+  let scores = document.querySelector('#scores');
+
   if (result.includes("You win")) {
     playerScore++;
-  } else if (result.includes("Computer wins")) {
+  }
+  else if (result.includes("Computer wins")) {
     computerScore++;
   }
+  checkGameState();
 }
 
-function displayScores() {
-  let scoreDiv = document.querySelector('#scores');
-  scoreDiv.textContent = `Player: ${playerScore} | Computer: ${computerScore}`;
-}
+function checkGameState() {
+  let resultsDiv = document.querySelector('#results');
+  let scores = document.querySelector('#scores');
 
-function announceWinner() {
-  let winnerDiv = document.querySelector('#winner');
-  document.querySelector('#results').innerHTML = "";
-  if (playerScore === 5) {
-    winnerDiv.textContent = "Congratulations! You won the game!";
-  } else {
-    winnerDiv.textContent = "Computer wins the game. Better luck next time!";
+  if (playerScore == 5) {
+    resultsDiv.textContent = `Congratulations! You won the game ${playerScore} points to ${computerScore} points.`;
+    playerScore = 0;
+    computerScore = 0;
+    scores.textContent = `Player: ${playerScore} || Computer: ${computerScore}`;
+  }
+  else if (computerScore == 5) {
+    resultsDiv.textContent = `Better luck next time! The computer won the game ${computerScore} points to ${playerScore} points.`;
+    playerScore = 0;
+    computerScore = 0;
+    scores.textContent = `Player: ${playerScore} || Computer: ${computerScore}`;
+  }
+  else {
+    scores.textContent = `Player: ${playerScore} || Computer: ${computerScore}`;
   }
 }
-
-function resetGame() {
-  // Reset scores
-  playerScore = 0;
-  computerScore = 0;
-
-  displayScores();
-  
-  // Clear results and winner displays
-  document.querySelector('#results').innerHTML = "";
-  document.querySelector('#winner').textContent = "";
-
-  // Readd event listner for player selections
-  playerChoice.addEventListener('click', handlePlayerChoice);
-}
-
-let playerChoice = document.querySelector('#playerChoice');
-playerChoice.addEventListener('click', handlePlayerChoice);
-
-let newGame = document.querySelector('#newGame');
-newGame.addEventListener('click', resetGame);
