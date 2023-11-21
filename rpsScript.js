@@ -69,21 +69,23 @@ function updateScores(result) {
   else if (result.includes("Computer wins")) {
     computerScore++;
   }
-  checkGameState();
+  checkGameState(result);
 }
 
-function checkGameState() {
+function checkGameState(result) {
   let resultsDiv = document.querySelector('#results');
   let scores = document.querySelector('#scores');
 
   if (playerScore == 5) {
-    resultsDiv.textContent = `Congratulations! You won the game ${playerScore} points to ${computerScore} points.`;
+    resultsDiv.setAttribute('style', 'white-space: pre;');
+    resultsDiv.textContent = `${result} \r\nCongratulations! You won the game ${playerScore} points to ${computerScore} points.`;
     playerScore = 0;
     computerScore = 0;
     scores.textContent = `Player: ${playerScore} || Computer: ${computerScore}`;
   }
   else if (computerScore == 5) {
-    resultsDiv.textContent = `Better luck next time! The computer won the game ${computerScore} points to ${playerScore} points.`;
+    resultsDiv.setAttribute('style', 'white-space: pre;');
+    resultsDiv.textContent = `${result} \r\nBetter luck next time! The computer won the game ${computerScore} points to ${playerScore} points.`;
     playerScore = 0;
     computerScore = 0;
     scores.textContent = `Player: ${playerScore} || Computer: ${computerScore}`;
