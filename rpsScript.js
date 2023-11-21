@@ -30,15 +30,34 @@ function playRound (playerSelection, computerSelection) {
   }
 }
 
-function game() {
+let playerScore = 0;
+let computerScore = 0;
 
-    for (let rounds = 1; rounds < 6; rounds++) {
+let buttonChoice = document.querySelector('body');
+buttonChoice.addEventListener('click', resolvePlayersChoice);
 
-      console.log("Round #", rounds);
+function resolvePlayersChoice (event) {
+  let target = event.target;
+  let computerChoice = getComputerChoice();
+  let result = '';
+  let resultsDiv = document.querySelector('#results');
 
-      const playerChoice = prompt("Rock, paper, or scissors? ");
+  switch (target.id) {
+    case 'rock':
+      result = playRound('rock', computerChoice);
+      resultsDiv.textContent = result;
+      break;
+    case 'paper':
+      result = playRound('paper', computerChoice);
+      resultsDiv.textContent = result;
+      break;
+    case 'scissors':
+      result = playRound('scissors', computerChoice);
+      resultsDiv.textContent = result;
+      break;
+  }
 
-      console.log(playRound(playerChoice, getComputerChoice()));
-
-    }
+  updateScores(result);
 }
+
+function updateScores(result) {}
